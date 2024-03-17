@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算器</title>
+    <style>
+ 
+        .h1{
+            width:215px;
+            border-style: solid;
+            border-color: #c5bbff;
+ 
+        }
+        .result{
+            height: 50px;
+            line-height: 50px;
+            font-size: 25px;
+            background-color: #c5bbff;
+        }
+ 
+        button{
+            background-color: pink;
+            width:50px;
+ 
+        }
+ 
+    </style>
+ 
+ 
+ 
+</head>
+<body>
+ 
+<div class="h1" >
+    <div class="result">0</div>
+    <div>
+        <button class="AC">AC</button>
+        <button class="back">C</button>
+        <button class="per">%</button>
+        <button class="operator">/</button>
+    </div>
+    <div>
+        <button class="buttonValue">7</button>
+        <button class="buttonValue">8</button>
+        <button class="buttonValue">9</button>
+        <button class="operator">*</button>
+    </div>
+    <div>
+        <button  class="buttonValue">4</button>
+        <button  class="buttonValue">5</button>
+        <button  class="buttonValue">6</button>
+        <button  class="operator">-</button>
+    </div>
+    <div>
+        <button  class="buttonValue">1</button>
+        <button  class="buttonValue">2</button>
+        <button  class="buttonValue">3</button>
+        <button  class="operator">+</button>
+    </div>
+    <div>
+        <button >+/-</button>
+        <button class="zero">0</button>
+        <button class="Dot">.</button>
+        <button class="equal">=</button>
+    </div>
+</div>
+ 
+<script>
+    let buttonValues = document.querySelectorAll('.buttonValue');
+    let operators = document.querySelectorAll('.operator');
+    let result = document.querySelector('.result');
+    let displays1 = "";
+    let AC = document.querySelector('.AC');
+    let Dot = document.querySelector('.Dot');
+    let equal = document.querySelector('.equal');
+    let C = document.querySelector('.back');
+    let per = document.querySelector('.per');
+    let zero = document.querySelector('.zero');
+    let isDot = true;
+    let displays2 = '';
+    for(i = 0;i<buttonValues.length;i++){
+        let buttonValue = buttonValues[i];
+        buttonValue.onclick = function(){
+            if (displays1==='0'){
+                displays1 = buttonValue.innerHTML;
+                result.innerHTML = displays1;
+            }
+            else if (result.innerHTML === displays2) {
+                displays1='';
+                displays2='';
+                displays1 = buttonValue.innerHTML;
+                result.innerHTML=displays1;
+            }
+            else {
+                displays1 += buttonValue.innerHTML;
+                result.innerHTML = displays1;
+            }
+ 
+        }}
+ 
+    Dot.onclick = function () {
+ 
+        if (displays1 === ""){
+            displays1 = '0.';
+            result.innerHTML = displays1;
+            isDot=false;
+        }
+ 
+        else if (isDot!==true) {
+            result.innerHTML = displays1;
+            isDot=false;
+        }
+        else if (result.innerHTML === displays2) {
+            displays1='0.';
+            result.innerHTML=displays1;
+            isDot=false;
+        }
+       else {
+            displays1 += Dot.innerHTML;
+            result.innerHTML = displays1;
+            isDot=false;
+        }
+ 
+    };
+   
+    for(i = 0;i<operators.length;i++){
+        let operator = operators[i];
+            operator.onclick = function(){
+ 
+                if (result.innerHTML === displays2) {
+                    displays1=displays2+operator.innerHTML;
+                    result.innerHTML=displays1;
+                }
+                if (displays2==="错误"){
+                    displays1='0'+operator.innerHTML;
+                    result.innerHTML = displays1;
+                    displays2='';
+                }
+                if (displays1===displays1.substr(0,displays1.length-1)+"+") {
+                    displays1=displays1.substr(0,displays1.length-1)+operator.innerHTML;
+                result.innerHTML = displays1;
+                }
+                else if (displays1===displays1.substr(0,displays1.length-1)+"-") {
+                    displays1=displays1.substr(0,displays1.length-1)+operator.innerHTML;
+                    result.innerHTML = displays1;
+                }
+                else if (displays1===displays1.substr(0,displays1.length-1)+"*") {
+                    displays1=displays1.substr(0,displays1.length-1)+operator.innerHTML;
+                    result.innerHTML = displays1;
+                }
+                else if (displays1===displays1.substr(0,displays1.length-1)+"/") {
+                    displays1=displays1.substr(0,displays1.length-1)+operator.innerHTML;
+                    result.innerHTML = displays1;
+                }
+                else {
+                    displays1 += operator.innerHTML;
+                    result.innerHTML = displays1;
+                }
+ 
+                isDot=true;
+ 
+ 
+        };
+ 
+    }
+ 
+ 
+    AC.onclick = function () {
+ 
+        displays1 = "";
+        displays2 = "";
+        result.innerHTML = '0';
+        isDot=true;
+    };
+ 
+ 
+    C.onclick =  function (){
+        if (displays1==='0'){
+            result.innerHTML = displays1;
+        }
+        else if(displays1.substr(0, displays1.length - 1)===""){
+            displays1='0';
+            result.innerHTML = displays1;
+        }
+       else {
+            displays1 = displays1.substr(0, displays1.length - 1);
+            result.innerHTML = displays1;
+        }
+    };
+    per.onclick = function () {
+ 
+        displays2= eval(displays1+'/100');
+ 
+        result.innerHTML = displays2;
+        displays2 = result.innerHTML;
+        displays1 = result.innerHTML;
+    };
+ 
+    zero.onclick = function(){
+ 
+        if (result.innerHTML===''){
+            displays1 = zero.innerHTML;
+            result.innerHTML = displays1;
+        }
+ 
+ 
+        else if ( result.innerHTML==="0"){
+            result.innerHTML = '0';
+        }
+ 
+        else if (result.innerHTML === displays2) {
+            displays1='0';
+            result.innerHTML=displays1;
+            displays2='';
+        }
+ 
+        else {
+        displays1 += zero.innerHTML;
+        result.innerHTML = displays1;
+        }
+    };
+ 
+    equal.onclick = function () {
+        if (displays1===displays1.substr(0,displays1.length-1)+"+") {
+            result.innerHTML = displays1;
+        }
+        else if (displays1===displays1.substr(0,displays1.length-1)+"-") {
+            result.innerHTML = displays1;
+        }
+        else if (displays1===displays1.substr(0,displays1.length-1)+"*") {
+            result.innerHTML = displays1;
+        }
+        else if (displays1===displays1.substr(0,displays1.length-1)+"/") {
+            result.innerHTML = displays1;
+        }
+ 
+ 
+        else {
+ 
+            displays2 = eval(displays1);
+            if (displays2===Infinity){
+                displays2="错误";
+                result.innerHTML = displays2;
+                displays1="";
+            }
+            result.innerHTML = displays2;
+            displays2=result.innerHTML;
+            displays1=result.innerHTML;
+        }
+ 
+    };
+ 
+ 
+</script>
+ 
+ 
+</body>
+</html>
